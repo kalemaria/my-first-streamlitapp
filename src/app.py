@@ -97,9 +97,7 @@ def color_cantons_by_data(data, label, title="Number of Clean Energy Sources per
 # Using html to make your title colorful 
 # your can change the type of header, here it's h1/h2 and color: purple/green
 st.markdown("<h1 style='text-align: center; color: purple;'>My First Dashboard with Streamlit</h1>", unsafe_allow_html=True)
-#st.title("My First Dashboard with Streamlit")
-st.markdown("<h2 style='text-align: center; color: green;'>My First Dashboard with Streamlit</h2>", unsafe_allow_html=True)
-#st.header("Renewable Power Plants in Switzerland Data Exploration")
+st.markdown("<h2 style='text-align: center; color: green;'>Renewable Power Plants in Switzerland Data Exploration</h2>", unsafe_allow_html=True)
 
 
 
