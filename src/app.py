@@ -9,6 +9,14 @@ import json
 from copy import deepcopy
 #st.balloons()
 
+# Page configuration (optional)
+# st.set_page_config(page_title="TITLE TITLE TILE", # page title, displayed on the window/tab bar
+#                    page_icon="apple", # favicon: icon that shows on the window/tab bar 
+#                    layout="wide", # use full width of the page
+#                    menu_items={
+#                        'About': "WRITE WHAT YOUR PAGE IS ABOUT"
+#                    })
+
 # Data loading
 @st.cache_data
 def load_csv(path):
@@ -86,8 +94,14 @@ def color_cantons_by_data(data, label, title="Number of Clean Energy Sources per
     return fig
 
 # Add title and header
-st.title("My First Dashboard with Streamlit")
-st.header("Renewable Power Plants in Switzerland Data Exploration")
+# Using html to make your title colorful 
+# your can change the type of header, here it's h1/h2 and color: purple/green
+st.markdown("<h1 style='text-align: center; color: purple;'>My First Dashboard with Streamlit</h1>", unsafe_allow_html=True)
+#st.title("My First Dashboard with Streamlit")
+st.markdown("<h2 style='text-align: center; color: green;'>My First Dashboard with Streamlit</h2>", unsafe_allow_html=True)
+#st.header("Renewable Power Plants in Switzerland Data Exploration")
+
+
 
 # Widgets: checkbox (you can replace st.xx with st.sidebar.xx)
 if st.checkbox("Show Dataframe"):
