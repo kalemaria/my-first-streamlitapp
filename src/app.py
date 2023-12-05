@@ -9,7 +9,7 @@ import json
 from copy import deepcopy
 #st.balloons()
 
-# First some basic data exploration
+# Data loading
 @st.cache_data
 def load_csv(path):
     df = pd.read_csv(path)
@@ -37,8 +37,53 @@ cantons_dict = {'TG':'Thurgau', 'GR':'Graubünden', 'LU':'Luzern', 'BE':'Bern', 
                 'AR':'Appenzell Ausserrhoden', 'AI':'Appenzell Innerrhoden', 'NW':'Nidwalden', 'BS':'Basel-Stadt'}
 df["canton_name"] = df["canton"].map(cantons_dict)
 
-# Find number of sources per canton
-sources_per_canton = df.groupby("canton_name").size().reset_index(name="count")
+# Count number of a specific energy source per canton
+def number_energy_source_per_cantoon(df, energy_source):
+    energy_sources_level_1 = list(df.energy_source_level_1.unique())
+    energy_sources_level_2 = list(df.energy_source_level_2.unique())
+    energy_sources_level_3 = list(df.energy_source_level_3.dropna().unique())
+    column = ""
+    if energy_source in energy_sources_level_1:
+        sources_per_canton = df[df["energy_source_level_1"]==energy_source].groupby("canton_name").size().reset_index(name="count")
+    elif energy_source in energy_sources_level_2:
+        sources_per_canton = df[df["energy_source_level_2"]==energy_source].groupby("canton_name").size().reset_index(name="count")
+    elif energy_source in energy_sources_level_3:
+        sources_per_canton = df[df["energy_source_level_3"]==energy_source].groupby("canton_name").size().reset_index(name="count")
+    else:
+        sources_per_canton = df.groupby("canton_name").size().reset_index(name="count")
+    return sources_per_canton
+
+# Plotting function
+def color_cantons_by_data(data, label, title="Number of Clean Energy Sources per Canton"):
+    fig = px.choropleth_mapbox(
+        data, 
+        color="count",
+        geojson=cantons, 
+        locations="canton_name", 
+        featureidkey="properties.kan_name",
+        center={"lat": 46.8, "lon": 8.3},
+        mapbox_style="open-street-map", 
+        zoom=6.3,
+        opacity=0.8,
+        width=900,
+        height=500,
+        labels={"canton_name":"Canton",
+            "count":label},
+        title=f"<b>{title}</b>",
+        color_continuous_scale="Viridis",
+    )
+    fig.update_layout(margin={"r":0,"t":35,"l":0,"b":0},
+                    font={"family":"Sans",
+                        "color":"maroon"},
+                    hoverlabel={"bgcolor":"white",
+                                "font_color":"black", 
+                                "font_size":12,
+                                "font_family":"Sans"},
+                    title={"font_size":20,
+                            "xanchor":"left", "x":0.01,
+                            "yanchor":"bottom", "y":0.95}
+                    )
+    return fig
 
 # Add title and header
 st.title("My First Dashboard with Streamlit")
@@ -49,39 +94,24 @@ if st.checkbox("Show Dataframe"):
     st.subheader("This is my dataset:")
     st.dataframe(data=df)
 
+# Widgets: selectbox
+energy_sources_level_1 = list(df.energy_source_level_1.unique())
+energy_sources_level_2 = list(df.energy_source_level_2.unique())
+energy_sources_level_3 = list(df.energy_source_level_3.dropna().unique())
+all_energy_sources = ["All"] + sorted(energy_sources_level_1 + energy_sources_level_2 + energy_sources_level_3)
+energy_source = st.selectbox("Choose an energy source", all_energy_sources)
+
+# Count number of the selected sources per canton
+sources_per_canton = number_energy_source_per_cantoon(df, energy_source)
+
 # Add a map plot
 st.header("Maps")
 
 # Choropleth mapbox using Plotly GO
 st.subheader("Plotly Map")
 
-plotly_map = px.choropleth_mapbox(
-    sources_per_canton, 
-    color="count",
-    geojson=cantons, 
-    locations="canton_name", 
-    featureidkey="properties.kan_name",
-    center={"lat": 46.8, "lon": 8.3},
-    mapbox_style="open-street-map", 
-    zoom=6.3,
-    opacity=0.8,
-    width=900,
-    height=500,
-    labels={"canton_name":"Canton",
-           "count":"Number of Sources"},
-    title="<b>Number of Clean Energy Sources per Canton</b>",
-    color_continuous_scale="Viridis",
-)
-plotly_map.update_layout(
-    margin={"r":0,"t":35,"l":0,"b":0},
-    font={"family":"Sans",
-          "color":"maroon"},
-    hoverlabel={"bgcolor":"white",
-                "font_color":"black", 
-                "font_size":12,
-                "font_family":"Sans"},
-    title={"font_size":20,
-           "xanchor":"left", "x":0.01,
-           "yanchor":"bottom", "y":0.95}
+plotly_map = color_cantons_by_data(
+    data=sources_per_canton,
+    label=f"Number of {energy_source} Sources"
 )
 st.plotly_chart(plotly_map)
