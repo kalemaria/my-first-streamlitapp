@@ -1,72 +1,44 @@
-# Project Name
+# Renewable Power Plants in Switzerland
+## Data Exploration using Plotly and Steamlit
 
-example image:
-
-
-![alternative text](reports/img/pic01.jpg)
+![alternative text](reports/img/energy_sources_map.png)
 
 
-#### -- Project Status: [Active, On-Hold, Completed]
+#### -- Project Status: [Active]
 
 ## Project Intro/Objective
-The purpose of this project is ________. (Describe the main goals of the project. Limit to a short paragraph, 3-6 Sentences)
-
-### Partner
-* [Name of Partner organization/Government department etc..]
-* Website for partner
-* Partner contact: [Name of Contact]
-* If you do not have a partner leave this section out
+The purpose of this project is to create an interactive dashboard for exploration of renewable energy sources in Switzerland using Plotly and Streamlit.
 
 ### Methods Used
-* Inferential Statistics
-* Machine Learning
+* Data Preprocessing
 * Data Visualization
-* Predictive Modeling
-* etc.
 
 ### Technologies
-* R
 * Python
-* D3
-* PostGres, MySql
-* Pandas, jupyter
-* HTML
-* JavaScript
-* etc.
+* Pandas, jupyter notebooks, Plotly
+* Streamlit
 
 ## Project Description
-(Provide more detailed overview of the project.
-Talk a bit about your data sources and what questions and hypothesis you are exploring.
-What specific data analysis/visualization and modelling work are you using to solve the
-problem? What blockers and challenges are you facing?
-Feel free to number or bullet point things here)
+Data sources:
+* CSV file with the dataset of swiss energy sources from: https://data.open-power-system-data.org/renewable_power_plants/                        
+* JSON file with coordinates of the Cantons from [here](https://data.opendatasoft.com/explore/dataset/georef-switzerland-kanton%40public/export/?disjunctive.kan_code&disjunctive.kan_name&sort=year&location=8,46.82242,8.22403&basemap=jawg.streets&dataChart=eyJxdWVyaWVzIjpbeyJjb25maWciOnsiZGF0YXNldCI6Imdlb3JlZi1zd2l0emVybGFuZC1rYW50b25AcHVibGljIiwib3B0aW9ucyI6eyJkaXNqdW5jdGl2ZS5rYW5fY29kZSI6dHJ1ZSwiZGlzanVuY3RpdmUua2FuX25hbWUiOnRydWUsInNvcnQiOiJ5ZWFyIn19LCJjaGFydHMiOlt7ImFsaWduTW9udGgiOnRydWUsInR5cGUiOiJsaW5lIiwiZnVuYyI6IkNPVU5UIiwic2NpZW50aWZpY0Rpc3BsYXkiOnRydWUsImNvbG9yIjoiIzE0MkU3QiJ9XSwieEF4aXMiOiJ5ZWFyIiwibWF4cG9pbnRzIjoiIiwidGltZXNjYWxlIjoieWVhciIsInNvcnQiOiIifV0sImRpc3BsYXlMZWdlbmQiOnRydWUsImFsaWduTW9udGgiOnRydWV9)
+
+The goal was to visualize the number of different energy sources per canton on a Plotly choropleth map.
+
+The challenge was to map the cantons between the CSV and the JSON file, as they used different naming (e.g. "ZH" vs. "Zürich").
 
 ## Getting Started
 
 1. Clone this repo (for help see this [tutorial](https://help.github.com/articles/cloning-a-repository/)).
-2. Raw Data is being kept [here](Repo folder containing raw data) within this repo.
-
-    *If using offline data mention that and how they may obtain the data from the froup)*
-
-3. Data processing/transformation scripts are being kept [here](Repo folder containing data processing scripts/notebooks)
-4. etc...
-
-*If your project is well underway and setup is fairly complicated (ie. requires installation of many packages)
-create another "setup.md" file and link to it here*
-
-5. Follow setup [instructions](Link to file)
+2. Data processing and visualisation script is being kept [here](notebooks)
+3. Source code for the Streamlit app is being kept [here](src)
+4. Feel free to extend the project using your own plots!
+5. To deploy your Streamlit app, follow these [instructions](https://docs.streamlit.io/streamlit-cloud/get-started/deploy-an-app)
 
 ## Featured Notebooks/Analysis/Deliverables
-* [Notebook/Markdown/Slide Deck Title](link)
-* [Notebook/Markdown/Slide DeckTitle](link)
-* [Blog Post](link)
+* [Notebook with data explotation and plots](notebooks/plotting.ipynb)
+* [Source code for the Streamlit app](src/app.py)
+* See my [Streamlit Dashboard](https://my-first-appapp-lgsepblf4duzksfamhcr2n.streamlit.app/) in action!
 
-
-## Contributing Members
-
-**Team Leads (Contacts) : [Full Name](https://github.com/[github handle])**
-
-#### Other Members:
-
- - [Full Name](https://github.com/[github handle])
- - [Full Name](https://github.com/[github handle])
+### Acknowledgements
+This project was initialised during the [Data Science Bootcamp](https://academy.constructor.org/data-science/munich) at [Constructor Academy](https://academy.constructor.org/de).
